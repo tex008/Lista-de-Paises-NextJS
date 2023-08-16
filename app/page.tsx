@@ -31,7 +31,6 @@ async function getCountries(): Promise<Country[]> {
 
 export default async function Home() {
   const countries = await getCountries()
-  console.log("teste", countries)
   return (
     <section className="container grid grid-cols-5 w-full gap-2 mt-16 ">
       {countries.map((country) => (
