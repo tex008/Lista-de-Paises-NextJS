@@ -16,6 +16,7 @@ export default async function CountryPage({
 }:Props) {
 
   const country = await getCountryByName(name)
+  const formatter = Intl.NumberFormat("en", { notation: "compact" })
 
   return (
     <section className="flex flex-col container">
@@ -38,7 +39,7 @@ export default async function CountryPage({
             <b>🗺️ Continente: </b>  {country.region} - {country.subregion}
           </h2>
           <h2 className="text-xl text-gray-800 mt-3">
-            <b>👨‍👩‍👧‍👦 População:</b> {country.capital}
+            <b>👨‍👩‍👧‍👦 População:</b> {formatter.format(country.population)}
             </h2>
           <h2 className="text-xl text-gray-800 mt-3">
             <b>🗣️ Línguas faladas: </b> 
@@ -48,6 +49,14 @@ export default async function CountryPage({
             ))}
           </h2>
         </section>
+        <div className="relative h-auto w-96 shadow-md">
+          <Image 
+            className="object-cover"
+            fill
+            src={country.flags.svg}
+            alt={country.flags.alt}
+          />
+        </div>
       </article>
     </section>
   )
