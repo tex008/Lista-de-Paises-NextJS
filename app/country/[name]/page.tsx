@@ -1,4 +1,6 @@
 import { Country } from "@/app/page";
+import Image from "next/image";
+import Link from "next/link";
 
 type Props = { 
   params: { name: string };
@@ -16,8 +18,37 @@ export default async function CountryPage({
   const country = await getCountryByName(name)
 
   return (
-    <section>
-      <h1 className="text-5xl font-bold text-gray-800 mt-16">{country.translations.por.common}</h1>
+    <section className="flex flex-col container">
+      <h1 className="text-5xl font-bold text-gray-800 my-16 text-center">{country.translations.por.common}</h1>
+      <Link className="flex items-center my-2" href={`/`}>
+        <Image
+          src="/back-arrow.svg"
+          alt="Arrow back icon"
+          width={24}
+          height={24}
+        />
+        Voltar
+      </Link>
+      <article className="flex justify-between min-w-full p-10 bg-white rounded-xl">
+        <section>
+          <h2 className="text-xl text-gray-800 mt-3">
+            <b>🏙️ Capital:</b> {country.capital}
+          </h2>
+          <h2 className="text-xl text-gray-800 mt-3">
+            <b>🗺️ Continente: </b>  {country.region} - {country.subregion}
+          </h2>
+          <h2 className="text-xl text-gray-800 mt-3">
+            <b>👨‍👩‍👧‍👦 População:</b> {country.capital}
+            </h2>
+          <h2 className="text-xl text-gray-800 mt-3">
+            <b>🗣️ Línguas faladas: </b> 
+            <br />
+            { Object.values(country.languages).map((language) => (
+              <span key={language} className="inline-block px-2 bg-indigo-700 mr-2 text-white text-sm rounded-full">{language}</span>
+            ))}
+          </h2>
+        </section>
+      </article>
     </section>
   )
 }

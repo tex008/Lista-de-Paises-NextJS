@@ -13,6 +13,12 @@ export type Country = {
   flags: {
     svg: string;
     alt: string;
+  },
+  capital: string;
+  region: string;
+  subregion: string;
+  languages: {
+    [key:string]: string;
   }
 }
 
