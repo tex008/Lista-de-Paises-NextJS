@@ -7,15 +7,17 @@ type Props = {
 }
 
 async function getCountryByName(countryName: string): Promise<Country> {
-  const response = await fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
-  return (await response.json())[0]
+  const response = await fetch(`https://restcountries.com/v3.1/all`)
+  const countries: Country[] = await response.json()
+  
+  return countries.find((country) => country.name.common === countryName)!
 }
 
 export default async function CountryPage({
   params: { name },
 }:Props) {
 
-  const country = await getCountryByName(name)
+  const country = await getCountryByName(decodeURI(name))
   const formatter = Intl.NumberFormat("en", { notation: "compact" })
 
   return (
