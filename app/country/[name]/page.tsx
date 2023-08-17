@@ -59,7 +59,7 @@ export default async function CountryPage({
   const formatter = Intl.NumberFormat("en", { notation: "compact" })
 
   return (
-    <section className="flex flex-col container">
+    <section className="flex flex-col container px-4 md:px-0">
       <h1 className="text-5xl font-bold text-gray-800 my-16 text-center">{country.translations.por.common}</h1>
       <Link className="flex items-center my-2" href={`/`}>
         <Image
@@ -70,7 +70,7 @@ export default async function CountryPage({
         />
         Voltar
       </Link>
-      <article className="flex justify-between min-w-full p-10 bg-white rounded-xl">
+      <article className="flex md:flex-row  flex-col justify-between min-w-full p-10 bg-white rounded-xl">
         <section>
          {country.capital && <h2 className="text-xl text-gray-800 mt-3">
             <b>🏙️ Capital:</b> {country.capital}
@@ -81,15 +81,15 @@ export default async function CountryPage({
           <h2 className="text-xl text-gray-800 mt-3">
             <b>👨‍👩‍👧‍👦 População:</b> {formatter.format(country.population)}
             </h2>
-          {country?.languages  && (<h2 className="text-xl text-gray-800 mt-3">
+          {country?.languages  && (<h2 className="text-xl text-gray-800 mt-3 max-w-xl">
             <b>🗣️ Línguas faladas: </b> 
             <br />
             { Object.values(country.languages).map((language) => (
-              <span key={language} className="inline-block px-2 bg-indigo-700 mr-2 text-white text-sm rounded-full">{language}</span>
+              <span key={language} className="inline-block px-2 bg-indigo-700 mr-2 text-white text-sm rounded-full max-w-2">{language}</span>
             ))}
           </h2>)}
         </section>
-        <div className="relative h-auto w-96 shadow-md">
+        <div className="relative h-48 my-2 md:h-auto md:my-0  md:w-96 w-auto shadow-md md:order-last order-first rounded-xl overflow-hidden">
           <Image 
             className="object-cover"
             fill
@@ -98,9 +98,9 @@ export default async function CountryPage({
           />
         </div>
       </article>
-      <section>
+      <section className="px-1 md:px-0">
         <h3 className="mt-12 text-2xl font-semibold text-gray-800">Países que fazem fronteira</h3>
-        <div className="grid grid-cols-5 gap-3 w-full mt-3">
+        <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full gap-2 mt-4">
           {borderCountries?.map((border:CountryBorder) => (
               <CountryCard
                 key={border.name}

@@ -35,7 +35,7 @@ async function getCountries(): Promise<Country[]> {
 export default async function Home() {
   const countries = await getCountries()
   return (
-    <section className="container grid grid-cols-5 w-full gap-2 mt-16 ">
+    <section className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full gap-2 mt-16 p-4 md:p-0">
       {countries.map((country) => (
         <CountryCard
           key={country.name.common}

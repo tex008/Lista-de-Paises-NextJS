@@ -18,9 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito_sans.className}>
-        <main className='bg-gray-100 min-h-screen flex flex-col items-center'>
+        <main className='bg-gray-200 min-h-screen flex flex-col items-center'>
           <nav className='w-full bg-white h-16 flex items-center justify-center'>
-            <section className='container flex items-center gap-3'>
+            <section className='container flex items-center gap-3 md:justify-start justify-center'>
               <Image width={48} height={48} src="/logo.svg" alt="logo da aplicação globo terrestre"/>
               <h1 className='font-bold text-2xl'>Lista de países</h1>
             </section>
