@@ -1,9 +1,18 @@
 import { Country } from "@/app/page";
+import CountryCard from "@/components/countryCard";
 import Image from "next/image";
 import Link from "next/link";
+import { flattenDiagnosticMessageText } from "typescript";
 
-type Props = { 
+type CountryPageProps = { 
   params: { name: string };
+}
+
+type CountryBorder = {
+  name: string;
+  ptName: string;
+  flag: string;
+  alt: string;
 }
 
 async function getCountryByName(countryName: string): Promise<Country> {
@@ -13,15 +22,24 @@ async function getCountryByName(countryName: string): Promise<Country> {
   return countries.find((country) => country.name.common === countryName)!
 }
 
-async function getCountryBordersByName(countryName: string): Promise<Country> {
+async function getCountryBordersByName(countryName: string) {
    const response = await fetch("https://restcountries.com/v3.1/all")
    const countries: Country[] = await response.json();
 
   const country = countries.find((country) => country.name.common === countryName)!;
-  // console.log("country",country)
 
   return country.borders?.map((border) => {
     const borderCountry = countries.find((country) => country.cca3 === border)!
+
+    if (!borderCountry) {
+      return {
+        name: "",
+        ptName: "",
+        flag: "",
+        alt: "",
+      }
+    }
+
     return {
       name: borderCountry?.name.common,
       ptName: borderCountry?.translations.por.common,
@@ -33,7 +51,7 @@ async function getCountryBordersByName(countryName: string): Promise<Country> {
 
 export default async function CountryPage({
   params: { name },
-}:Props) {
+}:CountryPageProps) {
 
   const country = await getCountryByName(decodeURI(name))
   const borderCountries = await getCountryBordersByName(decodeURI(name))
@@ -82,9 +100,15 @@ export default async function CountryPage({
       </article>
       <section>
         <h3 className="mt-12 text-2xl font-semibold text-gray-800">Países que fazem fronteira</h3>
-        <div className="grid grid-cols-5 w-full">
-          {country?.borders && country.borders.map((border) => (
-            <div key={border}>{border}</div>
+        <div className="grid grid-cols-5 gap-3 w-full mt-3">
+          {borderCountries?.map((border:CountryBorder) => (
+              <CountryCard
+                key={border.name}
+                name={border.name}
+                ptName={border.ptName}
+                flag={border.flag}
+                flagAlt={border.alt}
+                />
           ))}
         </div>
       </section>
