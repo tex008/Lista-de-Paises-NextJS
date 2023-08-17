@@ -13,11 +13,31 @@ async function getCountryByName(countryName: string): Promise<Country> {
   return countries.find((country) => country.name.common === countryName)!
 }
 
+async function getCountryBordersByName(countryName: string): Promise<Country> {
+   const response = await fetch("https://restcountries.com/v3.1/all")
+   const countries: Country[] = await response.json();
+
+  const country = countries.find((country) => country.name.common === countryName)!;
+  // console.log("country",country)
+
+  return country.borders?.map((border) => {
+    const borderCountry = countries.find((country) => country.cca3 === border)!
+    return {
+      name: borderCountry?.name.common,
+      ptName: borderCountry?.translations.por.common,
+      flag: borderCountry?.flags.svg,
+      alt: borderCountry?.flags.alt,
+    }
+  })
+}
+
 export default async function CountryPage({
   params: { name },
 }:Props) {
 
   const country = await getCountryByName(decodeURI(name))
+  const borderCountries = await getCountryBordersByName(decodeURI(name))
+  
   const formatter = Intl.NumberFormat("en", { notation: "compact" })
 
   return (
@@ -60,6 +80,14 @@ export default async function CountryPage({
           />
         </div>
       </article>
+      <section>
+        <h3 className="mt-12 text-2xl font-semibold text-gray-800">Países que fazem fronteira</h3>
+        <div className="grid grid-cols-5 w-full">
+          {country?.borders && country.borders.map((border) => (
+            <div key={border}>{border}</div>
+          ))}
+        </div>
+      </section>
     </section>
   )
 }

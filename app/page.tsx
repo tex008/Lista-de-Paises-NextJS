@@ -21,6 +21,8 @@ export type Country = {
   languages?: {
     [key:string]: string;
   }
+  borders?: Array<string>
+  cca3: string;
 }
 
 
